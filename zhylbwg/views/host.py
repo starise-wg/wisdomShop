@@ -13,6 +13,7 @@ def addhostinformationresult(request):
     # hostData1 = request.body
     # print(hostData)
     # print(hostData1)
+    # 你是
     if request.method == 'POST':
         print("已经进入方法")
         # f = addhostinformationresult(request.POST)  # request.POST：将接收到的数据通过Form1验证
