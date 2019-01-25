@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {# 增加主机信息表单   #}
+    <form action="/host/add/" method="post">
+        {% csrf_token %}
+        主机姓名：<input type="text" name = "hostnamep" value="123">
+        主机IP： <input type="text" name = "hostipp" value="232">
+        所属主机组：<select name="hostgroupg">
+                        <option value="1">主机1组</option>
+                        <option value="2">主机2组</option>
+                        <option value="3">主机3组</option>
+                        <option value="4">主机4组</option>
+                    </select>
+                <input type="submit",name = "增加"/>
+    </form>
+</body>
+</html>
