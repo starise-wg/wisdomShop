@@ -52,6 +52,7 @@ def register(request):
                                 content_type="application/json,charset=utf-8")
         else:
             # 获取用户密码
+            #
             userPwd = registerinformationData.get('userPwd')
             # 密码加密操作md5，md5加密功能具体看md5加密代码
             userPwdMd5 = md5.Md5(userPwd)
