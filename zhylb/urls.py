@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from zhylbwg.views import login # 导入相关APP下的views文件
 from zhylbwg.views import host # 导入相关APP下的views文件
-from zhylbbjy import views
+import zhylbbjy
 from django.views.generic.base import RedirectView
 
 urlpatterns = [
@@ -25,13 +25,19 @@ urlpatterns = [
     path('favicon.ico/', RedirectView.as_view(url=r'static/blog/img/favicon.ico')),
     path('admin/', admin.site.urls),
     path('zhylbwg/login', login.login),
-    path('login/', views.login),
-    path('pandas/', login.pads),
+    # path('login/',  ),
 
     # zhylbwg
     path('host/',host.addhostinformationpage),
     path('host/add/',host.addhostinformationresult),
-    path('host/check/',host.operationsdb)
+    path('host/check/', host.operationsdb),
+    path('zhylbwg/register/', login.register),
+    path('zhylbwg/login/', login.login),
+    # 爬取知乎妹子图片
+
+    path('meizi/', host.zhihuMeiZI),
+    # BeautifulSoup练习
+    path('bsi/', host.Bsi)
 
 
 ]

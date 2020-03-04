@@ -1,7 +1,6 @@
 ﻿#-*- coding: utf-8 -*-
 
 from django.db import models
-
 class Hostinfromation(models.Model):
     # 定义主机相关信息字段
     host_name = models.CharField(max_length=30)
