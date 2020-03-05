@@ -1,4 +1,4 @@
-﻿#-*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 '''===================================
 @Project：wisdomShop
 @Author：班婕妤
@@ -8,5 +8,3 @@
 @Python_Version：3.7.3
 @Django_Version：2.1.5
 ======================================='''
-from django.shortcuts import render,HttpResponse
-
