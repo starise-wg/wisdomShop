@@ -4,3 +4,4 @@ from zhylbwg.models.models import *
 from zhylbwg.models.hostmodels import *
 from zhylbwg.models.loginModels import *
 from zhylbwg.models.product.productInfo_models import *
+from zhylbwg.models.auth.auth_models import *

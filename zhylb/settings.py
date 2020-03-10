@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "zhylbwg", # 当新增App时都需要再此处进行添加
     "zhylbbjy",
+    'rest_framework',  # 用于django继承swagger
+    'rest_framework_swagger',  # 用于django继承swagger
 ]
 
 MIDDLEWARE = [
@@ -134,3 +136,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '../zhylbwg/templages/img/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'img').replace('\\', '/')  # img即为图片上传的根路径
+
+# swagger 配置項
+SWAGGER_SETTINGS = {
+    # 基礎樣式
+    'SECURITY_DEFINITIONS': {
+        "basic": {
+            'type': 'basic'
+        }
+    },
+    # 如果需要登錄才能夠查看接口文檔, 登錄的鏈接使用restframework自帶的.
+    'LOGIN_URL': 'rest_framework:login',
+    'LOGOUT_URL': 'rest_framework:logout',
+    # 'DOC_EXPANSION': None,
+    # 'SHOW_REQUEST_HEADERS':True,
+    # 'USE_SESSION_AUTH': True,
+    # 'DOC_EXPANSION': 'list',
+    # 接口文檔中方法列表以首字母升序排列
+    'APIS_SORTER': 'alpha',
+    # 如果支持json提交, 則接口文檔中包含json輸入框
+    'JSON_EDITOR': True,
+    # 方法列表字母排序
+    'OPERATIONS_SORTER': 'alpha',
+    'VALIDATOR_URL': None,
+}
