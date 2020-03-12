@@ -15,24 +15,25 @@ from zhylbwg.models.auth import auth_models
 from zhylbwg.views import md5
 from django.views import View
 from zhylbwg.models import loginModels
-
 '''
     用户验证，当用户首次登录时随机生成一个token
 '''
 
 
-class AuthView(View):
+# CBV 视图模式
+class AuthView(APIView):
+    '''
+        在配置了全局认证的情况下，可以使用authentication_classes = [] 表示该视图不进行认证
+    '''
+    authentication_classes = []
+    permission_classes = []
+
     def post(self, request, *args, **kwargs):
         ret = {'code': 1000, 'msg': None}
-        print("=======")
         try:
-            print("=======")
             user = request.POST.get('username')
-            print(user)
             pwd = md5.Md5(request.POST.get('password'))
-            print(pwd)
             obj = loginModels.Userinfo.objects.filter(userName=user, userPwd=pwd).first()
-            print(obj)
             if not obj:
                 ret['code'] = 1001
                 ret['msg'] = '用户名或密码错误'

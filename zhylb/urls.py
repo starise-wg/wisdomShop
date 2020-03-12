@@ -17,16 +17,17 @@ from django.contrib import admin
 from django.urls import path
 from zhylbwg.views import login # 导入相关APP下的views文件
 from zhylbwg.views import host # 导入相关APP下的views文件
-import zhylbbjy
 from django.views.generic.base import RedirectView
+
 from zhylbwg.views.product_views import product_information_views
-from zhylbwg.views.auth_views import *
-from django.conf.urls import include
+from zhylbwg.views.auth_views import AuthView
+from zhylbwg.views.premission_views import *
 # 导入coreapi相关模块
 from rest_framework.documentation import include_docs_urls
 
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
+from zhylbwg.views.product_views.order_views import OrderView
 
 schema_view = get_schema_view(title='Users API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 urlpatterns = [
@@ -57,9 +58,14 @@ urlpatterns = [
     #         方法没有定义，会抛出HttpResponseNotAllowed异常。
     #
     #     '''
-    path('zhylbwg/auth/', AuthView.as_view()),  # 用户验证
+    path('zhylbwg/auth/', AuthView.as_view()),  # 生成token
+    path('zhylbwg/authe/', OrderView.as_view()),  # 订单视图
+    # 角色权限控制
+    path('zhylbwg/per/admin/', AuthView.as_view()),  # 生成token
+    path('zhylbwg/per/doctor/', DoctorOrderView.as_view()),  # 医生权限测
+    path('zhylbwg/per/customer/', CustomerRoleOrderView.as_view()),  # 医生权限测
+    path('zhylbwg/per/adminAndDoctor/', AdminAndDoctorOrderView.as_view()),  # 超管和医生权限
 
-    # 爬取知乎妹子图片
 
     path('meizi/', host.zhihuMeiZI),
     # BeautifulSoup练习

@@ -56,7 +56,7 @@ def register(request):
         # 从数据库中查找是否存在该用户名
         userNameDB = loginModels.Userinfo.objects.filter(userName=userName)
         # 判断用户名是否存在，若存在，则提示已有该用户，若不存在，则进行密码加密后存储到数据库中
-        if len(userNameDB) != 0:
+        if userNameDB:
             return HttpResponse(json.dumps(requestResult.result_json('312', '该用户名已经存在', '')),
                                 content_type="application/json,charset=utf-8")
         else:

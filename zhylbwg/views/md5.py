@@ -9,8 +9,6 @@
 @Django_Version：2.1.5
 ======================================='''
 import hashlib  # 使用hashlib模块进行md5操作
-
-
 def Md5(str):
     md5 = hashlib.md5()  # 创建md5对象
     # 此处必须声明encode

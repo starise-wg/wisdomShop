@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "zhylbwg", # 当新增App时都需要再此处进行添加
     "zhylbbjy",
-    'rest_framework',  # 用于django继承swagger
+    'rest_framework',
     'rest_framework_swagger',  # 用于django继承swagger
 ]
 
@@ -138,6 +138,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '../zhylbwg/templages/img/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'img').replace('\\', '/')  # img即为图片上传的根路径
+'''
+    restFrameword 认证配置
+'''
+# 配置全局认证 REST_FRAMEWORK
+REST_FRAMEWORK = {
+    # 全局认证类不要放在views下
+    "DEFAULT_AUTHENTICATION_CLASSES": ['zhylbwg.util.authenticationSelf.AuthenticationSelf', ],
+    # 全局权限配置
+    "DEFAULT_PERMISSION_CLASSES": ['zhylbwg.util.premissionSelf.AdminAndDoctorRolePremission', ]
+}
+
 
 # swagger 配置項
 SWAGGER_SETTINGS = {
