@@ -11,22 +11,27 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from zhylbwg.models.auth import auth_models
+from zhylbwg.util.MySchemaGenerator import DocParam
 from zhylbwg.views import md5
 from django.views import View
 from zhylbwg.models import loginModels
 '''
     用户验证，当用户首次登录时随机生成一个token
 '''
-
-
 # CBV 视图模式
 class AuthView(APIView):
     '''
-        在配置了全局认证的情况下，可以使用authentication_classes = [] 表示该视图不进行认证
+        post：
+        为用户生成token的方法
     '''
     authentication_classes = []
     permission_classes = []
+    coreapi_fields = (
+        DocParam(name="username", location='body', description='用户姓名'),
+        DocParam(name="password", location='body', description='用户密码'),
+    )
 
     def post(self, request, *args, **kwargs):
         ret = {'code': 1000, 'msg': None}
@@ -39,7 +44,6 @@ class AuthView(APIView):
                 ret['msg'] = '用户名或密码错误'
             # 为用户创建token
             token = md5.Md5(user)
-            print(token)
             # 存在就更新，不存在就创建
             loginModels.UserToken.objects.update_or_create(user=obj, defaults={'token': token})
             ret['token'] = token

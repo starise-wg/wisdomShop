@@ -37,10 +37,10 @@ class DoctorOrderView(APIView):
     订单相关业务(只有SVIP用户才能看)
     '''
     authentication_classes = [AuthenticationSelf, ]  # 局部认证
-    permission_classes = [DocterRolePremission, ]  # 局部权限
+
+    # permission_classes = [DocterRolePremission, ]  # 局部权限
 
     def get(self, request, *args, **kwargs):
-        print(request.user.user_type)
         self.dispatch
         # request.user
         # request.auth

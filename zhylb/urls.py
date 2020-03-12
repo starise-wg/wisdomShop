@@ -14,7 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 from zhylbwg.views import login # 导入相关APP下的views文件
 from zhylbwg.views import host # 导入相关APP下的views文件
 from django.views.generic.base import RedirectView
@@ -24,18 +25,30 @@ from zhylbwg.views.auth_views import AuthView
 from zhylbwg.views.premission_views import *
 # 导入coreapi相关模块
 from rest_framework.documentation import include_docs_urls
+# 导入自定义的schema
+from zhylbwg.util.MySchemaGenerator import SwaggerSchemaView
+# 自定义接口
 
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 from zhylbwg.views.product_views.order_views import OrderView
 
-schema_view = get_schema_view(title='Users API', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
+schema_view = get_schema_view(title='班婕妤API接口文档', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
+router = routers.DefaultRouter()
 urlpatterns = [
     # favicon.cio
     path('favicon.ico/', RedirectView.as_view(url=r'static/blog/img/favicon.ico')),
     path('admin/', admin.site.urls),
     path('zhylbwg/login', login.login),
-    path('docs/', include_docs_urls(title='接口文档')),  # 接口路径
+    # swagger接口文档路由
+    path("zhylbwg/docs", SwaggerSchemaView.as_view()),
+    # path("zhylbwg/docs", schema_view,name = 'docs'), # 配置docs的url路径
+    path('', include(router.urls)),  # 代表位于根路径的主域名(http://127.0.0.1:8080
+    # drf登录
+    path('zhylbwg/api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    # 测试接口
+    path('zhylbwg/test1', AuthView.as_view(), name='test1'),
+
     # path('login/',  ),
 
     # zhylbwg
@@ -61,10 +74,10 @@ urlpatterns = [
     path('zhylbwg/auth/', AuthView.as_view()),  # 生成token
     path('zhylbwg/authe/', OrderView.as_view()),  # 订单视图
     # 角色权限控制
-    path('zhylbwg/per/admin/', AuthView.as_view()),  # 生成token
+    path('zhylbwg/per/admin/', AuthView.as_view(), ),  # 生成token
     path('zhylbwg/per/doctor/', DoctorOrderView.as_view()),  # 医生权限测
     path('zhylbwg/per/customer/', CustomerRoleOrderView.as_view()),  # 医生权限测
-    path('zhylbwg/per/adminAndDoctor/', AdminAndDoctorOrderView.as_view()),  # 超管和医生权限
+    # path('zhylbwg/per/adminAndDoctor/', AdminAndDoctorOrderView.as_view()),  # 超管和医生权限
 
 
     path('meizi/', host.zhihuMeiZI),

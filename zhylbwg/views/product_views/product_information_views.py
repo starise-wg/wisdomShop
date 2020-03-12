@@ -14,6 +14,7 @@ import json
 import os
 
 from rest_framework import generics
+from rest_framework.views import APIView
 
 from zhylbwg.models.product import productInfo_models
 from django.shortcuts import HttpResponse, render
@@ -24,12 +25,7 @@ from rest_framework import viewsets
 from zhylbwg.views.serializers import UserSerializer, GroupSerializer
 
 
-class PorductOpertion(viewsets.ModelViewSet):
-    '''
-        存储上平信息
-
-    '''
-
+class PorductOpertion(viewsets.ModelViewSet, APIView):
     def add_product(request):
         productInformation = json.loads(request.body, encoding='utf-8')
         product_brand_id = productInformation.get('product_brand_id')
