@@ -21,6 +21,7 @@ from zhylbwg.models import loginModels
     用户验证，当用户首次登录时随机生成一个token
 '''
 # CBV 视图模式
+# CBV 视图模式必须继承View，此处APIView 已经继承了View
 class AuthView(APIView):
     '''
         post：

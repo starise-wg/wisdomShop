@@ -23,18 +23,20 @@ from django.views.generic.base import RedirectView
 from zhylbwg.views.product_views import product_information_views
 from zhylbwg.views.auth_views import AuthView
 from zhylbwg.views.premission_views import *
+
 # 导入coreapi相关模块
 from rest_framework.documentation import include_docs_urls
 # 导入自定义的schema
 from zhylbwg.util.MySchemaGenerator import SwaggerSchemaView
 # 自定义接口
-
 from rest_framework.schemas import get_schema_view
 from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
+
 from zhylbwg.views.product_views.order_views import OrderView
 
 schema_view = get_schema_view(title='班婕妤API接口文档', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
 router = routers.DefaultRouter()
+
 urlpatterns = [
     # favicon.cio
     path('favicon.ico/', RedirectView.as_view(url=r'static/blog/img/favicon.ico')),

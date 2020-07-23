@@ -9,11 +9,15 @@
 @Django_Version：2.1.5
 ======================================='''
 from django.shortcuts import render,HttpResponse
+from django.http import JsonResponse
 import pandas as pd
 import json
 from zhylbwg.models import loginModels
 from zhylbwg.views import md5  # 导入自定义md5加密函数
 from zhylbwg.views import requestResult  # 导入自定义的统一返回函数
+
+from rest_framework.views import APIView
+from zhylbwg.util.MySchemaGenerator import DocParam
 
 
 # Create your views here.
@@ -32,18 +36,23 @@ def login(request):
             return HttpResponse(json.dumps(requestResult.result_json('202', '该用户名不存在，请注册', '')),
                                 content_type="application/json,charset=utf-8")
         else:
-            # 判断密码是否正确
+            '''
+                判断密码是否正确
+            '''
+            # 得到前端传过来的密码
             userPwd = loginInformation.get('userPwd')
+            # 使用mdb进行加密
             userPwdMd5 = md5.Md5(userPwd)
+            # 根据同用户名从数据库中获取密码
             checkLogin = loginModels.Userinfo.objects.get(userName=userName)
+            # 比较2个密码是否一致
             if userPwdMd5 == checkLogin.userPwd:
+                # 若一致，则登录成功
                 return HttpResponse(json.dumps(requestResult.result_json('203', '登录成功', '')),
                                     content_type="application/json,charset=utf-8")
             else:
                 return HttpResponse(json.dumps(requestResult.result_json('504', '密码错误', '')),
                                     content_type="application/json,charset=utf-8")
-
-
 def register(request):
     # 判断是否为post请求
     if request.method == "POST":
@@ -51,6 +60,7 @@ def register(request):
         registerinformation = request.body
         # 将请求头数据转化为json格式
         registerinformationData = json.loads(registerinformation)
+        print(registerinformationData)
         # 获取用户名
         userName = registerinformationData.get('userName')
         # 从数据库中查找是否存在该用户名
